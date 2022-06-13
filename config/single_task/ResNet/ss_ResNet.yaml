@@ -1,0 +1,35 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: SecondaryStructure
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+test_split: cb513
+
+task:
+  class: NodePropertyPrediction
+  model:
+    class: ResNet
+    input_dim: 21
+    hidden_dims: [ 512, 512, 512, 512, 512, 512, 512, 512 ]
+    layer_norm: True
+    dropout: 0.1
+  criterion: ce
+  metric: ["micro_acc", "macro_acc"]
+  num_mlp_layer: 2
+  num_class: [3]
+  entity_level: residue
+
+eval_metric: macro_acc
+
+optimizer:
+  class: Adam
+  lr: 1.0e-4
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 16
+
+train:
+  num_epoch: 100

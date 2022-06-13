@@ -1,0 +1,36 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: YeastPPI
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+test_split: test
+
+task:
+  class: InteractionPrediction
+  model:
+    class: ESM
+    path: ~/scratch/esm-model-weights/
+    model: ESM-1b
+    readout: mean
+  criterion: ce
+  metric: ["acc", "mcc"]
+  num_mlp_layer: 2
+  num_class: [2]
+
+eval_metric: accuracy
+
+optimizer:
+  class: Adam
+  lr: 5.0e-5
+
+fix_encoder: True
+fix_encoder2: True
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 8
+
+train:
+  num_epoch: 100

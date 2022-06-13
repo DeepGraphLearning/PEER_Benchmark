@@ -1,0 +1,49 @@
+output_dir: ~/scratch/torchprotein_output/
+
+datasets:
+  - class: PPIAffinity
+    path: ~/scratch/protein-datasets/
+    residue_only: True
+    test_split: test
+    center: True
+  - class: SecondaryStructure
+    path: ~/scratch/protein-datasets/
+    residue_only: True
+    truncate_length: 200
+    random: True
+    test_split: cb513
+
+tasks:
+  - class: InteractionPrediction
+    normalization: False
+    criterion: mse
+    metric: [ "mae", "rmse", "spearmanr" ]
+    num_mlp_layer: 2
+    entity_level: residue
+  - class: NodePropertyPrediction
+    criterion: ce
+    metric: [ "micro_acc", "macro_acc" ]
+    num_mlp_layer: 2
+    num_class: [ 3 ]
+    entity_level: residue
+
+model:
+  class: ConvolutionalNetwork
+  input_dim: 21
+  hidden_dims: [1024, 1024]
+  kernel_size: 5
+  padding: 2
+
+eval_metric: Center - PPIAffinity root mean squared error
+
+optimizer:
+  class: Adam
+  lr: 2.0e-5
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 8
+
+train:
+  num_epoch: 100
+  tradeoff: 1.0

@@ -1,0 +1,37 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: ProteinNet
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+test_split: test
+
+task:
+  class: ContactPrediction
+  model:
+    class: ResNet
+    input_dim: 21
+    hidden_dims: [ 512, 512, 512, 512, 512, 512, 512, 512 ]
+    layer_norm: True
+    dropout: 0.1
+  criterion: bce
+  metric: ["accuracy", "prec@L5", "prec@5"]
+  max_length: 400
+  random_truncate: yes
+  threshold: 8.0
+  gap: 6
+  num_mlp_layer: 2
+
+eval_metric: prec@L5
+
+optimizer:
+  class: Adam
+  lr: 1.0e-4
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 4
+
+train:
+  num_epoch: 50

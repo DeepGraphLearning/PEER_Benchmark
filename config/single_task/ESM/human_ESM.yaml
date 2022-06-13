@@ -1,0 +1,37 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: HumanPPI
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+  truncate_length: 550
+  random: True
+
+test_split: test
+
+task:
+  class: InteractionPrediction
+  model:
+    class: ESM
+    path: ~/scratch/esm-model-weights/
+    model: ESM-1b
+  criterion: ce
+  metric: ["acc", "mcc"]
+  num_mlp_layer: 2
+  num_class: [2]
+  entity_level: residue
+
+eval_metric: accuracy
+
+optimizer:
+  class: Adam
+  lr: 2.0e-4
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 2
+
+lr_ratio: 0.1
+
+train:
+  num_epoch: 50

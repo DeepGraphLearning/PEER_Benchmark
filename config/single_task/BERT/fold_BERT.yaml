@@ -1,0 +1,38 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: Fold
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+test_split: test_fold_holdout
+
+task:
+  class: PropertyPrediction
+  model:
+    class: BERT
+    input_dim: 21
+    hidden_dim: 512
+    num_layers: 4
+    num_heads: 8
+    intermediate_dim: 2048
+    hidden_dropout: 0.1
+    attention_dropout: 0.1
+  criterion: ce
+  metric: ["acc", "mcc"]
+  num_mlp_layer: 2
+  num_class: [1195]
+  entity_level: residue
+
+eval_metric: accuracy
+
+optimizer:
+  class: Adam
+  lr: 5.0e-5
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 16
+
+train:
+  num_epoch: 100

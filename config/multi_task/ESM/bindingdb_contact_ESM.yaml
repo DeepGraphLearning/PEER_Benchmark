@@ -1,0 +1,60 @@
+output_dir: ~/scratch/torchprotein_output/
+
+datasets:
+  - class: BindingDB
+    path: ~/scratch/protein-datasets/
+    residue_only: True
+    truncate_length: 550
+    random: True
+    center: True
+    test_split: holdout_test
+  - class: ProteinNet
+    path: ~/scratch/protein-datasets/
+    residue_only: True
+    truncate_length: 1022
+    random: True
+
+tasks:
+  - class: InteractionPrediction
+    model2:
+      class: GIN
+      input_dim: 66
+      hidden_dims: [256, 256, 256, 256]
+      batch_norm: yes
+      short_cut: yes
+      concat_hidden: yes
+    normalization: False
+    criterion: mse
+    metric: ["mae", "rmse", "spearmanr"]
+    num_mlp_layer: 2
+    entity_level: residue
+    entity_level2: node
+  - class: ContactPrediction
+    criterion: bce
+    metric: [ "accuracy", "prec@L5", "prec@5" ]
+    max_length: 100
+    random_truncate: yes
+    threshold: 8.0
+    gap: 6
+    num_mlp_layer: 2
+
+model:
+  class: ESM
+  path: ~/scratch/esm-model-weights/
+  model: ESM-1b
+
+eval_metric: Center - BindingDB root mean squared error
+
+optimizer:
+  class: Adam
+  lr: 2.0e-4
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 2
+
+lr_ratio: 0.1
+
+train:
+  num_epoch: 100
+  tradeoff: 1

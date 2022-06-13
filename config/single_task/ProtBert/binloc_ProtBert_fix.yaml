@@ -1,0 +1,33 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: BinaryLocalization
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+task:
+  class: PropertyPrediction
+  model:
+    class: ProtBert
+    path: ~/scratch/protbert-model-weights/
+    readout: mean
+  criterion: ce
+  metric: ["acc", "mcc"]
+  num_mlp_layer: 2
+  num_class: [2]
+  entity_level: residue
+
+eval_metric: accuracy
+
+optimizer:
+  class: Adam
+  lr: 5.0e-5
+
+fix_encoder: True
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 64
+
+train:
+  num_epoch: 100

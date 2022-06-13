@@ -1,0 +1,48 @@
+output_dir: ~/scratch/torchprotein_output/
+
+datasets:
+  - class: BinaryLocalization
+    path: ~/scratch/protein-datasets/
+    residue_only: True
+    center: True
+  - class: ProteinNet
+    path: ~/scratch/protein-datasets/
+    residue_only: True
+    truncate_length: 1022
+
+tasks:
+  - class: PropertyPrediction
+    criterion: ce
+    metric: [ "acc", "mcc" ]
+    num_mlp_layer: 2
+    num_class: [ 2 ]
+    entity_level: residue
+  - class: ContactPrediction
+    criterion: bce
+    metric: [ "accuracy", "prec@L5", "prec@5" ]
+    max_length: 300
+    random_truncate: yes
+    threshold: 8.0
+    gap: 6
+    num_mlp_layer: 2
+
+model:
+  class: ConvolutionalNetwork
+  input_dim: 21
+  hidden_dims: [1024, 1024]
+  kernel_size: 5
+  padding: 2
+
+eval_metric: Center - BinaryLocalization accuracy
+
+optimizer:
+  class: Adam
+  lr: 2.0e-4
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 8
+
+train:
+  num_epoch: 100
+  tradeoff: 1.0

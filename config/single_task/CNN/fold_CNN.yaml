@@ -1,0 +1,35 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: Fold
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+test_split: test_fold_holdout
+
+task:
+  class: PropertyPrediction
+  model:
+    class: ConvolutionalNetwork
+    input_dim: 21
+    hidden_dims: [1024, 1024]
+    kernel_size: 5
+    padding: 2
+  criterion: ce
+  metric: ["acc", "mcc"]
+  num_class: [1195]
+  num_mlp_layer: 2
+  entity_level: residue
+
+eval_metric: accuracy
+
+optimizer:
+  class: Adam
+  lr: 2.0e-4
+
+engine:
+  gpus: [0]
+  batch_size: 64
+
+train:
+  num_epoch: 100

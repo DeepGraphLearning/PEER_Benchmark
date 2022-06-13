@@ -1,0 +1,34 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: BinaryLocalization
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+task:
+  class: PropertyPrediction
+  model:
+    class: ESM
+    path: ~/scratch/esm-model-weights/
+    model: ESM-1b
+    readout: mean
+  criterion: ce
+  metric: ["acc", "mcc"]
+  num_mlp_layer: 2
+  num_class: [2]
+  entity_level: residue
+
+eval_metric: accuracy
+
+optimizer:
+  class: Adam
+  lr: 5.0e-5
+
+fix_encoder: True
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 32
+
+train:
+  num_epoch: 100

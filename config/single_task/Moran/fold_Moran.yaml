@@ -1,0 +1,35 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: Fold
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+test_split: test_fold_holdout
+
+task:
+  class: PropertyPrediction
+  model:
+    class: Physicochemical
+    path: ~/scratch/physicochemical
+    type: moran
+    nlag: 30
+    hidden_dims: [512]
+  criterion: ce
+  metric: ["acc", "mcc"]
+  num_class: [1195]
+  num_mlp_layer: 2
+  entity_level: residue
+
+eval_metric: accuracy
+
+optimizer:
+  class: Adam
+  lr: 1.0e-4
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 16
+
+train:
+  num_epoch: 100

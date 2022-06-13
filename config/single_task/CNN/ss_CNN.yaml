@@ -1,0 +1,35 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: SecondaryStructure
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+test_split: cb513
+
+task:
+  class: NodePropertyPrediction
+  model:
+    class: ConvolutionalNetwork
+    input_dim: 21
+    hidden_dims: [1024, 1024]
+    kernel_size: 5
+    padding: 2
+  criterion: ce
+  metric: ["micro_acc", "macro_acc"]
+  num_mlp_layer: 2
+  num_class: [3]
+  entity_level: residue
+
+eval_metric: macro_acc
+
+optimizer:
+  class: Adam
+  lr: 2.0e-4
+
+engine:
+  gpus: [0]
+  batch_size: 256
+
+train:
+  num_epoch: 100

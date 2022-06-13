@@ -1,0 +1,50 @@
+output_dir: ~/scratch/torchprotein_output/
+
+datasets:
+  - class: BinaryLocalization
+    path: ~/scratch/protein-datasets/
+    residue_only: True
+    truncate_length: 550
+    center: True
+  - class: SecondaryStructure
+    path: ~/scratch/protein-datasets/
+    residue_only: True
+    truncate_length: 200
+    random: True
+    test_split: cb513
+
+tasks:
+  - class: PropertyPrediction
+    criterion: ce
+    metric: [ "acc", "mcc" ]
+    num_mlp_layer: 2
+    num_class: [ 2 ]
+    entity_level: residue
+  - class: NodePropertyPrediction
+    criterion: ce
+    metric: [ "micro_acc", "macro_acc" ]
+    num_mlp_layer: 2
+    num_class: [ 3 ]
+    entity_level: residue
+
+model:
+  class: ESM
+  path: ~/scratch/esm-model-weights/
+  model: ESM-1b
+  readout: mean
+
+eval_metric: Center - BinaryLocalization accuracy
+
+optimizer:
+  class: Adam
+  lr: 2.0e-4
+
+lr_ratio: 0.1
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 2
+
+train:
+  num_epoch: 100
+  tradeoff: 1.0

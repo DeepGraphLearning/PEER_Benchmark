@@ -1,0 +1,53 @@
+output_dir: ~/scratch/torchprotein_output/
+
+datasets:
+  - class: HumanPPI
+    path: ~/scratch/protein-datasets/
+    residue_only: True
+    truncate_length: 550
+    test_split: test
+    center: True
+  - class: ProteinNet
+    path: ~/scratch/protein-datasets/
+    residue_only: True
+    truncate_length: 1022
+
+tasks:
+  - class: InteractionPrediction
+    criterion: ce
+    metric: [ "acc", "mcc" ]
+    num_mlp_layer: 2
+    num_class: [ 2 ]
+    entity_level: residue
+  - class: ContactPrediction
+    criterion: bce
+    metric: [ "accuracy", "prec@L5", "prec@5" ]
+    max_length: 300
+    random_truncate: yes
+    threshold: 8.0
+    gap: 6
+    num_mlp_layer: 2
+
+model:
+  class: BERT
+  input_dim: 21
+  hidden_dim: 512
+  num_layers: 4
+  num_heads: 8
+  intermediate_dim: 2048
+  hidden_dropout: 0.1
+  attention_dropout: 0.1
+
+eval_metric: Center - HumanPPI accuracy
+
+optimizer:
+  class: Adam
+  lr: 5.0e-5
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 8
+
+train:
+  num_epoch: 50
+  tradeoff: 1.0

@@ -1,0 +1,16 @@
+torch>=1.8.0
+torch-scatter>=2.0.8
+torch-cluster>=1.5.9
+decorator
+numpy>=1.11
+rdkit-pypi>=2020.9
+matplotlib
+tqdm
+networkx
+ninja
+jinja2
+easydict
+pyyaml
+lmdb
+fair-esm
+transformers>=4.18.0

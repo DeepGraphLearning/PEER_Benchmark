@@ -1,0 +1,43 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: PDBBind
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+test_split: test
+
+task:
+  class: InteractionPrediction
+  model:
+    class: ConvolutionalNetwork
+    input_dim: 21
+    hidden_dims: [1024, 1024]
+    kernel_size: 5
+    padding: 2
+  model2:
+    class: GIN
+    input_dim: 66
+    hidden_dims: [256, 256, 256, 256]
+    batch_norm: yes
+    short_cut: yes
+    concat_hidden: yes
+  normalization: False
+  criterion: mse
+  metric: ["mae", "rmse", "spearmanr"]
+  num_mlp_layer: 2
+  entity_level: residue
+  entity_level2: node
+
+eval_metric: root mean squared error
+
+optimizer:
+  class: Adam
+  lr: 2.0e-4
+
+engine:
+  gpus: [0]
+  batch_size: 256
+
+train:
+  num_epoch: 100

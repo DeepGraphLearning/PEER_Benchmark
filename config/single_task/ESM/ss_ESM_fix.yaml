@@ -1,0 +1,37 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: SecondaryStructure
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+  truncate_length: 1022
+
+test_split: cb513
+
+task:
+  class: NodePropertyPrediction
+  model:
+    class: ESM
+    path: ~/scratch/esm-model-weights/
+    model: ESM-1b
+    readout: mean
+  criterion: ce
+  metric: ["micro_acc", "macro_acc"]
+  num_mlp_layer: 2
+  num_class: [3]
+  entity_level: residue
+
+eval_metric: macro_acc
+
+optimizer:
+  class: Adam
+  lr: 5.0e-5
+
+fix_encoder: True
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 8
+
+train:
+  num_epoch: 100

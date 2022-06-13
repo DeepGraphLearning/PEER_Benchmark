@@ -1,0 +1,33 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: Fluorescence
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+task:
+  class: PropertyPrediction
+  model:
+    class: ESM
+    path: ~/scratch/esm-model-weights/
+    model: ESM-1b
+  criterion: mse
+  metric: ["mae", "rmse", "spearmanr"]
+  normalization: False
+  num_mlp_layer: 2
+  entity_level: residue
+
+eval_metric: spearmanr
+
+optimizer:
+  class: Adam
+  lr: 2.0e-4
+
+lr_ratio: 0.1
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 8
+
+train:
+  num_epoch: 100

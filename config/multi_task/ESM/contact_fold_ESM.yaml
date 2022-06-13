@@ -1,0 +1,52 @@
+output_dir: ~/scratch/torchprotein_output/
+
+datasets:
+  - class: ProteinNet
+    path: ~/scratch/protein-datasets/
+    residue_only: True
+    truncate_length: 1022
+    center: True
+  - class: Fold
+    path: ~/scratch/protein-datasets/
+    test_split: test_fold_holdout
+    truncate_length: 400
+    random: True
+    residue_only: True
+
+tasks:
+  - class: ContactPrediction
+    criterion: bce
+    metric: [ "accuracy", "prec@L5", "prec@5" ]
+    max_length: 300
+    random_truncate: yes
+    threshold: 8.0
+    gap: 6
+    num_mlp_layer: 2
+  - class: PropertyPrediction
+    criterion: ce
+    metric: [ "acc", "mcc" ]
+    num_mlp_layer: 2
+    num_class: [ 1195 ]
+    entity_level: residue
+
+model:
+  class: ESM
+  path: ~/scratch/esm-model-weights/
+  model: ESM-1b
+  readout: mean
+
+eval_metric: Center - ProteinNet prec@L5
+
+optimizer:
+  class: Adam
+  lr: 2.0e-4
+
+lr_ratio: 0.1
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 2
+
+train:
+  num_epoch: 100
+  tradeoff: 1

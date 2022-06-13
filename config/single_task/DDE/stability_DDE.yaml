@@ -1,0 +1,31 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: Stability
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+task:
+  class: PropertyPrediction
+  model:
+    class: Statistic
+    type: DDE
+    hidden_dims: [512]
+  criterion: mse
+  metric: ["mae", "rmse", "spearmanr"]
+  normalization: False
+  num_mlp_layer: 2
+  entity_level: residue
+
+eval_metric: spearmanr
+
+optimizer:
+  class: Adam
+  lr: 1.0e-4
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 16
+
+train:
+  num_epoch: 100

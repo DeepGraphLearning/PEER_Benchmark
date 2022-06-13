@@ -1,0 +1,33 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: SubcellularLocalization
+  path: ~/scratch/protein-datasets/
+  residue_only: True
+
+task:
+  class: PropertyPrediction
+  model:
+    class: ResNet
+    input_dim: 21
+    hidden_dims: [ 512, 512, 512, 512, 512, 512, 512, 512 ]
+    layer_norm: True
+    dropout: 0.1
+  criterion: ce
+  metric: ["acc", "mcc"]
+  num_mlp_layer: 2
+  num_class: [10]
+  entity_level: residue
+
+eval_metric: accuracy
+
+optimizer:
+  class: Adam
+  lr: 5.0e-5
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 32
+
+train:
+  num_epoch: 100
