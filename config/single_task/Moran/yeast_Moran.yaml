@@ -4,6 +4,12 @@ dataset:
   class: YeastPPI
   path: ~/scratch/protein-datasets/
   residue_only: True
+  transform:
+    class: Compose
+    transforms:
+      - class: ProteinView
+        view: "residue"
+        keys: [ "graph1", "graph2" ]
 
 test_split: test
 
@@ -19,7 +25,6 @@ task:
   metric: ["acc", "mcc"]
   num_mlp_layer: 2
   num_class: [2]
-  entity_level: residue
 
 eval_metric: accuracy
 

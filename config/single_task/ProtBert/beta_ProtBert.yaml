@@ -4,6 +4,11 @@ dataset:
   class: BetaLactamase
   path: ~/scratch/protein-datasets/
   residue_only: True
+  transform:
+    class: Compose
+    transforms:
+      - class: ProteinView
+        view: "residue"
 
 task:
   class: PropertyPrediction
@@ -14,7 +19,6 @@ task:
   metric: ["mae", "rmse", "spearmanr"]
   normalization: False
   num_mlp_layer: 2
-  entity_level: residue
 
 eval_metric: spearmanr
 

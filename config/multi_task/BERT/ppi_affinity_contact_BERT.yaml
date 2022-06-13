@@ -4,13 +4,31 @@ datasets:
   - class: PPIAffinity
     path: ~/scratch/protein-datasets/
     residue_only: True
-    truncate_length: 550
     test_split: test
     center: True
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 550
+          random: False
+          residue: True
+          keys: [ "graph1", "graph2" ]
+        - class: ProteinView
+          view: "residue"
+          keys: [ "graph1", "graph2" ]
   - class: ProteinNet
     path: ~/scratch/protein-datasets/
     residue_only: True
-    truncate_length: 1022
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 1022
+          random: False
+          residue: True
+        - class: ProteinView
+          view: "residue"
 
 tasks:
   - class: InteractionPrediction
@@ -18,7 +36,6 @@ tasks:
     criterion: mse
     metric: [ "mae", "rmse", "spearmanr" ]
     num_mlp_layer: 2
-    entity_level: residue
   - class: ContactPrediction
     criterion: bce
     metric: [ "accuracy", "prec@L5", "prec@5" ]

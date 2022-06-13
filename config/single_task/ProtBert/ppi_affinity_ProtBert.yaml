@@ -3,8 +3,18 @@ output_dir: ~/scratch/torchprotein_output/
 dataset:
   class: PPIAffinity
   path: ~/scratch/protein-datasets/
-  truncate_length: 550
   residue_only: True
+  transform:
+    class: Compose
+    transforms:
+      - class: TruncateProtein
+        max_length: 550
+        random: False
+        residue: True
+        keys: [ "graph1", "graph2" ]
+      - class: ProteinView
+        view: "residue"
+        keys: [ "graph1", "graph2" ]
 
 test_split: test
 
@@ -17,7 +27,6 @@ task:
   metric: [ "mae", "rmse", "spearmanr" ]
   num_mlp_layer: 2
   normalization: False
-  entity_level: residue
 
 eval_metric: root mean squared error
 

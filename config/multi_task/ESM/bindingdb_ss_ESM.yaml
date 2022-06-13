@@ -4,16 +4,32 @@ datasets:
   - class: BindingDB
     path: ~/scratch/protein-datasets/
     residue_only: True
-    truncate_length: 550
-    random: True
     center: True
     test_split: holdout_test
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 550
+          random: True
+          residue: True
+          keys: "graph1"
+        - class: ProteinView
+          view: "residue"
+          keys: "graph1"
   - class: SecondaryStructure
     path: ~/scratch/protein-datasets/
     residue_only: True
-    truncate_length: 200
-    random: True
     test_split: cb513
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 200
+          random: True
+          residue: True
+        - class: ProteinView
+          view: "residue"
 
 tasks:
   - class: InteractionPrediction
@@ -28,14 +44,11 @@ tasks:
     criterion: mse
     metric: ["mae", "rmse", "spearmanr"]
     num_mlp_layer: 2
-    entity_level: residue
-    entity_level2: node
   - class: NodePropertyPrediction
     criterion: ce
     metric: [ "micro_acc", "macro_acc" ]
     num_mlp_layer: 2
     num_class: [ 3 ]
-    entity_level: residue
 
 model:
   class: ESM

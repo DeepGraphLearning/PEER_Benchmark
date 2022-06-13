@@ -4,14 +4,29 @@ datasets:
   - class: ProteinNet
     path: ~/scratch/protein-datasets/
     residue_only: True
-    truncate_length: 1022
     center: True
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 1022
+          random: False
+          residue: True
+        - class: ProteinView
+          view: "residue"
   - class: SecondaryStructure
     path: ~/scratch/protein-datasets/
     residue_only: True
-    truncate_length: 200
-    random: True
     test_split: cb513
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 200
+          random: True
+          residue: True
+        - class: ProteinView
+          view: "residue"
 
 tasks:
   - class: ContactPrediction
@@ -27,7 +42,6 @@ tasks:
     metric: [ "micro_acc", "macro_acc" ]
     num_mlp_layer: 2
     num_class: [ 3 ]
-    entity_level: residue
 
 model:
   class: ESM

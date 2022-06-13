@@ -4,6 +4,11 @@ dataset:
   class: ProteinNet
   path: ~/scratch/protein-datasets/
   residue_only: True
+  transform:
+    class: Compose
+    transforms:
+      - class: ProteinView
+        view: "residue"
 
 test_split: test
 test_batch_size: 1

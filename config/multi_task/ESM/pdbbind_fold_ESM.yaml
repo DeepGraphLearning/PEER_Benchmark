@@ -4,16 +4,32 @@ datasets:
   - class: PDBBind
     path: ~/scratch/protein-datasets/
     residue_only: True
-    truncate_length: 550
-    random: True
     center: True
     test_split: test
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 550
+          random: True
+          residue: True
+          keys: "graph1"
+        - class: ProteinView
+          view: "residue"
+          keys: "graph1"
   - class: Fold
     path: ~/scratch/protein-datasets/
     test_split: test_fold_holdout
-    truncate_length: 150
-    random: True
     residue_only: True
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 150
+          random: True
+          residue: True
+        - class: ProteinView
+          view: "residue"
 
 tasks:
   - class: InteractionPrediction
@@ -28,14 +44,11 @@ tasks:
     criterion: mse
     metric: ["mae", "rmse", "spearmanr"]
     num_mlp_layer: 2
-    entity_level: residue
-    entity_level2: node
   - class: PropertyPrediction
     criterion: ce
     metric: [ "acc", "mcc" ]
     num_mlp_layer: 2
     num_class: [ 1195 ]
-    entity_level: residue
 
 model:
   class: ESM

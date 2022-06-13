@@ -4,6 +4,11 @@ dataset:
   class: Fold
   path: ~/scratch/protein-datasets/
   residue_only: True
+  transform:
+    class: Compose
+    transforms:
+      - class: ProteinView
+        view: "residue"
 
 test_split: test_fold_holdout
 
@@ -22,7 +27,6 @@ task:
   metric: ["acc", "mcc"]
   num_mlp_layer: 2
   num_class: [1195]
-  entity_level: residue
 
 eval_metric: accuracy
 

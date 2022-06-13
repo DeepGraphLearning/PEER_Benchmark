@@ -5,12 +5,24 @@ datasets:
     path: ~/scratch/protein-datasets/
     residue_only: True
     center: True
+    transform:
+      class: Compose
+      transforms:
+        - class: ProteinView
+          view: "residue"
   - class: SecondaryStructure
     path: ~/scratch/protein-datasets/
     residue_only: True
-    truncate_length: 200
-    random: True
     test_split: cb513
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 200
+          random: True
+          residue: True
+        - class: ProteinView
+          view: "residue"
 
 tasks:
   - class: PropertyPrediction
@@ -18,13 +30,11 @@ tasks:
     metric: [ "acc", "mcc" ]
     num_mlp_layer: 2
     num_class: [ 2 ]
-    entity_level: residue
   - class: NodePropertyPrediction
     criterion: ce
     metric: [ "micro_acc", "macro_acc" ]
     num_mlp_layer: 2
     num_class: [ 3 ]
-    entity_level: residue
 
 model:
   class: ConvolutionalNetwork

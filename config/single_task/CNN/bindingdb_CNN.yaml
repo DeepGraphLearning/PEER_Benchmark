@@ -4,8 +4,17 @@ dataset:
   class: BindingDB
   path: ~/scratch/protein-datasets/
   residue_only: True
-  truncate_length: 550
-  random: True
+  transform:
+    class: Compose
+    transforms:
+      - class: TruncateProtein
+        max_length: 550
+        random: True
+        residue: True
+        keys: "graph1"
+      - class: ProteinView
+        view: "residue"
+        keys: "graph1"
 
 test_split: holdout_test
 
@@ -28,8 +37,6 @@ task:
   metric: ["mae", "rmse", "spearmanr"]
   num_mlp_layer: 2
   normalization: False
-  entity_level: residue
-  entity_level2: node
 
 eval_metric: root mean squared error
 

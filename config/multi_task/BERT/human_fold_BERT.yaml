@@ -6,12 +6,25 @@ datasets:
     residue_only: True
     test_split: test
     center: True
+    transform:
+      class: Compose
+      transforms:
+        - class: ProteinView
+          view: "residue"
+          keys: [ "graph1", "graph2" ]
   - class: Fold
     path: ~/scratch/protein-datasets/
     test_split: test_fold_holdout
-    truncate_length: 200
-    random: True
     residue_only: True
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 200
+          random: True
+          residue: True
+        - class: ProteinView
+          view: "residue"
 
 tasks:
   - class: InteractionPrediction
@@ -19,13 +32,11 @@ tasks:
     metric: [ "acc", "mcc" ]
     num_mlp_layer: 2
     num_class: [ 2 ]
-    entity_level: residue
   - class: PropertyPrediction
     criterion: ce
     metric: [ "acc", "mcc" ]
     num_mlp_layer: 2
     num_class: [ 1195 ]
-    entity_level: residue
 
 model:
   class: BERT

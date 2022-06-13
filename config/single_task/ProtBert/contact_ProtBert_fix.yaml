@@ -4,7 +4,15 @@ dataset:
   class: ProteinNet
   path: ~/scratch/protein-datasets/
   residue_only: True
-  truncate_length: 1022
+  transform:
+    class: Compose
+    transforms:
+      - class: TruncateProtein
+        max_length: 1022
+        random: False
+        residue: True
+      - class: ProteinView
+        view: "residue"
 
 test_split: test
 test_batch_size: 1

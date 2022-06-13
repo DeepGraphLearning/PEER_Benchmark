@@ -23,14 +23,15 @@ under both **single-task learning** and **multi-task learning** settings.
 
 ![PEER Benchmark](asset/benchmark.png)
 
-This codebase is based on PyTorch and **TorchProtein-dev**, a developing version of [TorchDrug] specific to protein applications.
-This benchmark codebase as well as the finished TorchProtein platform *will be released to public soon.*
+This codebase is based on PyTorch and [TorchProtein], an extension of [TorchDrug] specific to protein applications.
+It supports training and inference with multiple GPUs or multiple machines.
 
-[TorchDrug]: https://github.com/DeepGraphLearning/torchdrug
+[TorchProtein]: https://torchprotein.ai/
+[TorchDrug]: https://torchdrug.ai/
 
 ## Installation ##
 
-You may install the dependencies of TorchProtein-dev and PEER benchmark as below. 
+You may install the dependencies of TorchProtein and PEER benchmark as below. 
 Generally, they work with Python 3.7/3.8 and PyTorch version >= 1.8.0.
 
 ```bash
@@ -42,9 +43,7 @@ conda install scikit-learn pandas decorator ipython networkx tqdm matplotlib -y
 conda install pytorch-scatter pytorch-cluster -c pyg -c conda-forge
 pip install fair-esm transformers easydict pyyaml lmdb
 
-cd TorchProtein-dev
-python setup.py develop
-cd ../
+python -m pip install git+https://github.com/DeepGraphLearning/torchdrug-dev
 ```
 
 ## Reproduction ##
@@ -121,7 +120,26 @@ Multi-task learning experiment:
 python -m torch.distributed.launch --nnodes=2 --nproc_per_node=4 script/run_multi.py -c config/multi_task/$model/$yaml_config --seed 0
 ```
 
-License
--------
+## Benchmark Results ##
+
+At the [website of TorchProtein], we maintain a leaderboard for each of the 14 benchmark tasks. 
+We also maintain an **integrated leaderboard** among different methods by taking the mean reciprocal rank (MRR) as the metric. 
+In the future, we will open the entrance to receive new benchmark results of new methods from the community. 
+
+[website of TorchProtein]: https://torchprotein.ai/benchmark
+
+## License ##
 
 This codebase is released under the Apache License 2.0 as in the [LICENSE](LICENSE) file.
+
+## Citation ##
+
+If you find this codebase helpful in your research, please site the following paper.
+```
+@article{xu2022peer,
+  title={PEER: A Comprehensive and Multi-Task Benchmark for Protein Sequence Understanding},
+  author={Xu, Minghao and Zhang, Zuobai and Lu, Jiarui and Zhu, Zhaocheng and Zhang, Yangtian and Ma, Chang and Liu, Runcheng and Tang, Jian},
+  journal={arXiv preprint arXiv:2206.02096},
+  year={2022}
+}
+```

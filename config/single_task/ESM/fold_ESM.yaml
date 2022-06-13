@@ -4,8 +4,15 @@ dataset:
   class: Fold
   path: ~/scratch/protein-datasets/
   residue_only: True
-  truncate_length: 550
-  random: True
+  transform:
+    class: Compose
+    transforms:
+      - class: TruncateProtein
+        max_length: 550
+        random: True
+        residue: True
+      - class: ProteinView
+        view: "residue"
 
 test_split: test_fold_holdout
 
@@ -18,7 +25,6 @@ task:
   criterion: ce
   metric: ["acc", "mcc"]
   num_mlp_layer: 2
-  entity_level: residue
 
 eval_metric: accuracy
 

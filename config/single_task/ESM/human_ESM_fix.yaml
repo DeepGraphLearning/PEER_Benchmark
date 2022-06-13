@@ -4,6 +4,12 @@ dataset:
   class: HumanPPI
   path: ~/scratch/protein-datasets/
   residue_only: True
+  transform:
+    class: Compose
+    transforms:
+      - class: ProteinView
+        view: "residue"
+        keys: [ "graph1", "graph2" ]
 
 test_split: test
 

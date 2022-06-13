@@ -4,6 +4,11 @@ dataset:
   class: SubcellularLocalization
   path: ~/scratch/protein-datasets/
   residue_only: True
+  transform:
+    class: Compose
+    transforms:
+      - class: ProteinView
+        view: "residue"
 
 task:
   class: PropertyPrediction
@@ -20,7 +25,6 @@ task:
   metric: ["acc", "mcc"]
   num_mlp_layer: 2
   num_class: [10]
-  entity_level: residue
 
 eval_metric: accuracy
 

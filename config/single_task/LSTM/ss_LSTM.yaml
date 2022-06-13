@@ -4,6 +4,11 @@ dataset:
   class: SecondaryStructure
   path: ~/scratch/protein-datasets/
   residue_only: True
+  transform:
+    class: Compose
+    transforms:
+      - class: ProteinView
+        view: "residue"
 
 test_split: cb513
 
@@ -18,7 +23,6 @@ task:
   metric: ["micro_acc", "macro_acc"]
   num_mlp_layer: 2
   num_class: [3]
-  entity_level: residue
 
 eval_metric: macro_acc
 

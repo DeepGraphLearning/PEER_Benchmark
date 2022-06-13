@@ -4,14 +4,29 @@ datasets:
   - class: ProteinNet
     path: ~/scratch/protein-datasets/
     residue_only: True
-    truncate_length: 1022
     center: True
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 1022
+          random: False
+          residue: True
+        - class: ProteinView
+          view: "residue"
   - class: Fold
     path: ~/scratch/protein-datasets/
     test_split: test_fold_holdout
-    truncate_length: 400
-    random: True
     residue_only: True
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 400
+          random: True
+          residue: True
+        - class: ProteinView
+          view: "residue"
 
 tasks:
   - class: ContactPrediction
@@ -27,7 +42,6 @@ tasks:
     metric: [ "acc", "mcc" ]
     num_mlp_layer: 2
     num_class: [ 1195 ]
-    entity_level: residue
 
 model:
   class: BERT

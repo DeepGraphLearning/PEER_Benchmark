@@ -6,10 +6,23 @@ datasets:
     residue_only: True
     test_split: cb513
     center: True
+    transform:
+      class: Compose
+      transforms:
+        - class: ProteinView
+          view: "residue"
   - class: ProteinNet
     path: ~/scratch/protein-datasets/
     residue_only: True
-    truncate_length: 1022
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 1022
+          random: False
+          residue: True
+        - class: ProteinView
+          view: "residue"
 
 tasks:
   - class: NodePropertyPrediction
@@ -17,7 +30,6 @@ tasks:
     metric: [ "micro_acc", "macro_acc" ]
     num_mlp_layer: 2
     num_class: [ 3 ]
-    entity_level: residue
   - class: ContactPrediction
     criterion: bce
     metric: [ "accuracy", "prec@L5", "prec@5" ]

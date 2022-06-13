@@ -4,8 +4,15 @@ dataset:
   class: SubcellularLocalization
   path: ~/scratch/protein-datasets/
   residue_only: True
-  truncate_length: 550
-  random: True
+  transform:
+    class: Compose
+    transforms:
+      - class: TruncateProtein
+        max_length: 550
+        random: True
+        residue: True
+      - class: ProteinView
+        view: "residue"
 
 task:
   class: PropertyPrediction
@@ -16,7 +23,6 @@ task:
   criterion: ce
   metric: ["acc", "mcc"]
   num_mlp_layer: 2
-  entity_level: residue
 
 eval_metric: accuracy
 
