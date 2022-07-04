@@ -43,7 +43,7 @@ conda install scikit-learn pandas decorator ipython networkx tqdm matplotlib -y
 conda install pytorch-scatter pytorch-cluster -c pyg -c conda-forge
 pip install fair-esm transformers easydict pyyaml lmdb
 
-python -m pip install git+https://github.com/DeepGraphLearning/torchdrug-dev
+python -m pip install git+https://github.com/DeepGraphLearning/torchdrug/
 ```
 
 ## Reproduction ##
@@ -134,7 +134,7 @@ This codebase is released under the Apache License 2.0 as in the [LICENSE](LICEN
 
 ## Citation ##
 
-If you find this codebase helpful in your research, please site the following paper.
+If you find this codebase helpful in your research, please cite the following paper.
 ```
 @article{xu2022peer,
   title={PEER: A Comprehensive and Multi-Task Benchmark for Protein Sequence Understanding},
