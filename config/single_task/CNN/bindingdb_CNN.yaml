@@ -10,7 +10,6 @@ dataset:
       - class: TruncateProtein
         max_length: 550
         random: True
-        residue: True
         keys: "graph1"
       - class: ProteinView
         view: "residue"
@@ -21,7 +20,7 @@ test_split: holdout_test
 task:
   class: InteractionPrediction
   model:
-    class: ConvolutionalNetwork
+    class: ProteinConvolutionalNetwork
     input_dim: 21
     hidden_dims: [1024, 1024]
     kernel_size: 5

@@ -15,7 +15,7 @@ test_split: test_fold_holdout
 task:
   class: PropertyPrediction
   model:
-    class: BERT
+    class: ProteinBERT
     input_dim: 21
     hidden_dim: 512
     num_layers: 4

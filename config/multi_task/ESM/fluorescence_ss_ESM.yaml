@@ -20,7 +20,6 @@ datasets:
         - class: TruncateProtein
           max_length: 200
           random: True
-          residue: True
         - class: ProteinView
           view: "residue"
 

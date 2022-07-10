@@ -12,7 +12,6 @@ datasets:
         - class: TruncateProtein
           max_length: 450
           random: False
-          residue: True
         - class: ProteinView
           view: "residue"
   - class: ProteinNet
@@ -24,7 +23,6 @@ datasets:
         - class: TruncateProtein
           max_length: 1022
           random: False
-          residue: True
         - class: ProteinView
           view: "residue"
 
@@ -44,7 +42,7 @@ tasks:
     num_mlp_layer: 2
 
 model:
-  class: BERT
+  class: ProteinBERT
   input_dim: 21
   hidden_dim: 512
   num_layers: 4

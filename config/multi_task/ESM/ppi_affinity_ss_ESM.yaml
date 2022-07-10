@@ -12,7 +12,6 @@ datasets:
         - class: TruncateProtein
           max_length: 550
           random: False
-          residue: True
           keys: [ "graph1", "graph2" ]
         - class: ProteinView
           view: "residue"
@@ -27,7 +26,6 @@ datasets:
         - class: TruncateProtein
           max_length: 200
           random: True
-          residue: True
         - class: ProteinView
           view: "residue"
 

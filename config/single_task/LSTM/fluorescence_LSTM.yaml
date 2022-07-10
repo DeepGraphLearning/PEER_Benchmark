@@ -13,7 +13,7 @@ dataset:
 task:
   class: PropertyPrediction
   model:
-    class: LSTM
+    class: ProteinLSTM
     input_dim: 21
     hidden_dim: 640
     num_layers: 3

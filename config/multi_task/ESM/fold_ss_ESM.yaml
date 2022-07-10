@@ -12,7 +12,6 @@ datasets:
         - class: TruncateProtein
           max_length: 450
           random: False
-          residue: True
         - class: ProteinView
           view: "residue"
   - class: SecondaryStructure
@@ -25,7 +24,6 @@ datasets:
         - class: TruncateProtein
           max_length: 200
           random: True
-          residue: True
         - class: ProteinView
           view: "residue"
 

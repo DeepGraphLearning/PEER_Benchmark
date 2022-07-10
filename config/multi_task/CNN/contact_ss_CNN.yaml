@@ -11,7 +11,6 @@ datasets:
         - class: TruncateProtein
           max_length: 1022
           random: False
-          residue: True
         - class: ProteinView
           view: "residue"
   - class: SecondaryStructure
@@ -24,7 +23,6 @@ datasets:
         - class: TruncateProtein
           max_length: 200
           random: True
-          residue: True
         - class: ProteinView
           view: "residue"
 
@@ -44,7 +42,7 @@ tasks:
     num_class: [ 3 ]
 
 model:
-  class: ConvolutionalNetwork
+  class: ProteinConvolutionalNetwork
   input_dim: 21
   hidden_dims: [1024, 1024]
   kernel_size: 5

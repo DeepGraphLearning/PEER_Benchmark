@@ -11,7 +11,6 @@ datasets:
         - class: TruncateProtein
           max_length: 1022
           random: False
-          residue: True
         - class: ProteinView
           view: "residue"
   - class: Fold
@@ -24,7 +23,6 @@ datasets:
         - class: TruncateProtein
           max_length: 400
           random: True
-          residue: True
         - class: ProteinView
           view: "residue"
 

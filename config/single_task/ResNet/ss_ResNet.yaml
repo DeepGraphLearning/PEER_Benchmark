@@ -15,7 +15,7 @@ test_split: cb513
 task:
   class: NodePropertyPrediction
   model:
-    class: ResNet
+    class: ProteinResNet
     input_dim: 21
     hidden_dims: [ 512, 512, 512, 512, 512, 512, 512, 512 ]
     layer_norm: True
