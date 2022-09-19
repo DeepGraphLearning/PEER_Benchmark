@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 datasets:
   - class: PDBBind
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     center: True
     test_split: test
     transform:
@@ -15,7 +16,8 @@ datasets:
   - class: Fold
     path: ~/scratch/protein-datasets/
     test_split: test_fold_holdout
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     transform:
       class: Compose
       transforms:
@@ -42,7 +44,7 @@ tasks:
     criterion: ce
     metric: [ "acc", "mcc" ]
     num_mlp_layer: 2
-    num_class: [ 1195 ]
+    num_class: 1195
 
 model:
   class: ProteinConvolutionalNetwork

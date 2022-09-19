@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 dataset:
   class: HumanPPI
   path: ~/scratch/protein-datasets/
-  residue_only: True
+  atom_feature: null
+  bond_feature: null
   transform:
     class: Compose
     transforms:
@@ -24,7 +25,7 @@ task:
   criterion: ce
   metric: ["acc", "mcc"]
   num_mlp_layer: 2
-  num_class: [2]
+  num_class: 2
 
 eval_metric: accuracy
 

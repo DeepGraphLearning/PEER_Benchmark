@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 datasets:
   - class: BetaLactamase
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     center: True
     transform:
       class: Compose
@@ -12,7 +13,8 @@ datasets:
           view: "residue"
   - class: SecondaryStructure
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     test_split: cb513
     transform:
       class: Compose
@@ -33,7 +35,7 @@ tasks:
     criterion: ce
     metric: [ "micro_acc", "macro_acc" ]
     num_mlp_layer: 2
-    num_class: [ 3 ]
+    num_class: 3
 
 model:
   class: ProteinBERT

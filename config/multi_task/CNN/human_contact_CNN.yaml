@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 datasets:
   - class: HumanPPI
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     test_split: test
     center: True
     transform:
@@ -14,7 +15,8 @@ datasets:
           keys: [ "graph1", "graph2" ]
   - class: ProteinNet
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     transform:
       class: Compose
       transforms:
@@ -29,7 +31,7 @@ tasks:
     criterion: ce
     metric: [ "acc", "mcc" ]
     num_mlp_layer: 2
-    num_class: [ 2 ]
+    num_class: 2
   - class: ContactPrediction
     criterion: bce
     metric: [ "accuracy", "prec@L5", "prec@5" ]

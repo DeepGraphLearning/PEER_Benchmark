@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 datasets:
   - class: Fluorescence
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     center: True
     transform:
       class: Compose
@@ -12,7 +13,8 @@ datasets:
           view: "residue"
   - class: ProteinNet
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     transform:
       class: Compose
       transforms:

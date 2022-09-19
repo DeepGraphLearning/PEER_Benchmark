@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 dataset:
   class: SecondaryStructure
   path: ~/scratch/protein-datasets/
-  residue_only: True
+  atom_feature: null
+  bond_feature: null
   transform:
     class: Compose
     transforms:
@@ -24,7 +25,7 @@ task:
   criterion: ce
   metric: ["micro_acc", "macro_acc"]
   num_mlp_layer: 2
-  num_class: [3]
+  num_class: 3
 
 eval_metric: macro_acc
 

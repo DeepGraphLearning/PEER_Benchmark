@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 datasets:
   - class: PPIAffinity
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     test_split: test
     center: True
     transform:
@@ -14,7 +15,8 @@ datasets:
           keys: [ "graph1", "graph2" ]
   - class: ProteinNet
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     transform:
       class: Compose
       transforms:

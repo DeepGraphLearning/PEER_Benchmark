@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 dataset:
   class: Fold
   path: ~/scratch/protein-datasets/
-  residue_only: True
+  atom_feature: null
+  bond_feature: null
   transform:
     class: Compose
     transforms:
@@ -22,7 +23,7 @@ task:
     hidden_dims: [512]
   criterion: ce
   metric: ["acc", "mcc"]
-  num_class: [1195]
+  num_class: 1195
   num_mlp_layer: 2
 
 eval_metric: accuracy

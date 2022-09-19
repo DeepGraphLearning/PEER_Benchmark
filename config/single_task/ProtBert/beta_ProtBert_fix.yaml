@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 dataset:
   class: BetaLactamase
   path: ~/scratch/protein-datasets/
-  residue_only: True
+  atom_feature: null
+  bond_feature: null
   transform:
     class: Compose
     transforms:

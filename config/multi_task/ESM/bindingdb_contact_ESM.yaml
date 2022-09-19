@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 datasets:
   - class: BindingDB
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     center: True
     test_split: holdout_test
     transform:
@@ -18,7 +19,8 @@ datasets:
           keys: "graph1"
   - class: ProteinNet
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     transform:
       class: Compose
       transforms:

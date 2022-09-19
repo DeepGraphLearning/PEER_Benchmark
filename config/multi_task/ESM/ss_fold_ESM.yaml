@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 datasets:
   - class: SecondaryStructure
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     test_split: cb513
     center: True
     transform:
@@ -17,7 +18,8 @@ datasets:
   - class: Fold
     path: ~/scratch/protein-datasets/
     test_split: test_fold_holdout
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     transform:
       class: Compose
       transforms:
@@ -32,12 +34,12 @@ tasks:
     criterion: ce
     metric: [ "micro_acc", "macro_acc" ]
     num_mlp_layer: 2
-    num_class: [ 3 ]
+    num_class: 3
   - class: PropertyPrediction
     criterion: ce
     metric: [ "acc", "mcc" ]
     num_mlp_layer: 2
-    num_class: [ 1195 ]
+    num_class: 1195
 
 model:
   class: ESM

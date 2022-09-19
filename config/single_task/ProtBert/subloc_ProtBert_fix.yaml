@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 dataset:
   class: SubcellularLocalization
   path: ~/scratch/protein-datasets/
-  residue_only: True
+  atom_feature: null
+  bond_feature: null
   transform:
     class: Compose
     transforms:
@@ -19,7 +20,7 @@ task:
   criterion: ce
   metric: ["acc", "mcc"]
   num_mlp_layer: 2
-  num_class: [10]
+  num_class: 10
 
 eval_metric: accuracy
 

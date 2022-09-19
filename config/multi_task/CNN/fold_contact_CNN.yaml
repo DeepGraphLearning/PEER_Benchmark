@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 datasets:
   - class: Fold
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     test_split: test_fold_holdout
     center: True
     transform:
@@ -13,7 +14,8 @@ datasets:
           view: "residue"
   - class: ProteinNet
     path: ~/scratch/protein-datasets/
-    residue_only: True
+    atom_feature: null
+    bond_feature: null
     transform:
       class: Compose
       transforms:
@@ -28,7 +30,7 @@ tasks:
     criterion: ce
     metric: [ "acc", "mcc" ]
     num_mlp_layer: 2
-    num_class: [1195]
+    num_class: 1195
   - class: ContactPrediction
     criterion: bce
     metric: [ "accuracy", "prec@L5", "prec@5" ]

@@ -3,7 +3,8 @@ output_dir: ~/scratch/torchprotein_output/
 dataset:
   class: Solubility
   path: ~/scratch/protein-datasets/
-  residue_only: True
+  atom_feature: null
+  bond_feature: null
   transform:
     class: Compose
     transforms:
@@ -21,7 +22,7 @@ task:
     model: ESM-1b
   criterion: ce
   metric: ["acc", "mcc"]
-  num_class: [2]
+  num_class: 2
   num_mlp_layer: 2
 
 eval_metric: accuracy
