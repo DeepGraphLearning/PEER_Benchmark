@@ -13,10 +13,15 @@ accepted by **NeurIPS 2022 Dataset and Benchmark Track** ([OpenReview link](http
 [Jian Tang](https://jian-tang.com)
 (*equal contribution)
 
+## News ##
+
+- [2022/09/19] The initial release! We release source codes and configs for 14 tasks in the PEER benchmark.
+- [2022/10/16] Full PEER benchmark released! We newly release the source codes and configs for three protein function prediction tasks from FLIP. 
+
 ## Overview ##
 
 PEER is a **comprehensive** and **multi-task** benchmark for protein sequence understanding. 
-It contains 14 tasks of protein understanding lying in 5 task categories 
+It contains 17 tasks of protein understanding lying in 5 task categories 
 including protein function prediction, protein localization prediction, protein structure prediction, protein-protein interaction prediction and protein-ligand interaction prediction. 
 On this benchmark, we evaluate different types of sequence-based methods for each task 
 including traditional feature engineering approaches, different sequence encoding methods as well as large-scale pre-trained protein language models 
@@ -123,7 +128,7 @@ python -m torch.distributed.launch --nnodes=2 --nproc_per_node=4 script/run_mult
 
 ## Benchmark Results ##
 
-At the [website of TorchProtein], we maintain a leaderboard for each of the 14 benchmark tasks. 
+At the [website of TorchProtein], we maintain a leaderboard for each benchmark task. 
 We also maintain an **integrated leaderboard** among different methods by taking the mean reciprocal rank (MRR) as the metric. 
 In the future, we will open the entrance to receive new benchmark results of new methods from the community. 
 
