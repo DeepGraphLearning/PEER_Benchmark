@@ -1,0 +1,40 @@
+output_dir: ~/scratch/torchprotein_output/
+
+dataset:
+  class: Thermostability
+  path: ~/scratch/protein-datasets/
+  atom_feature: null
+  bond_feature: null
+  transform:
+    class: Compose
+    transforms:
+      - class: TruncateProtein
+        max_length: 1022
+      - class: ProteinView
+        view: "residue"
+
+task:
+  class: PropertyPrediction
+  model:
+    class: ProtBert
+    path: ~/scratch/protein-model-weights/protbert-model-weights/
+    readout: mean
+  criterion: mse
+  metric: ["mae", "rmse", "spearmanr"]
+  normalization: False
+  num_mlp_layer: 2
+
+eval_metric: spearmanr
+
+optimizer:
+  class: Adam
+  lr: 5.0e-5
+
+fix_encoder: True
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 16
+
+train:
+  num_epoch: 100

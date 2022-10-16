@@ -1,0 +1,66 @@
+output_dir: ~/scratch/torchprotein_output/
+
+datasets:
+  - class: Thermostability
+    path: ~/scratch/protein-datasets/
+    atom_feature: null
+    bond_feature: null
+    center: True
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 1022
+        - class: ProteinView
+          view: "residue"
+  - class: ProteinNet
+    path: ~/scratch/protein-datasets/
+    atom_feature: null
+    bond_feature: null
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 1022
+          random: False
+        - class: ProteinView
+          view: "residue"
+
+tasks:
+  - class: PropertyPrediction
+    criterion: mse
+    metric: [ "mae", "rmse", "spearmanr" ]
+    normalization: False
+    num_mlp_layer: 2
+  - class: ContactPrediction
+    criterion: bce
+    metric: [ "accuracy", "prec@L5", "prec@5" ]
+    max_length: 300
+    random_truncate: yes
+    threshold: 8.0
+    gap: 6
+    num_mlp_layer: 2
+
+model:
+  class: ProteinBERT
+  input_dim: 21
+  hidden_dim: 512
+  num_layers: 4
+  num_heads: 8
+  intermediate_dim: 2048
+  hidden_dropout: 0.1
+  attention_dropout: 0.1
+
+eval_metric: Center - Thermostability spearmanr
+
+optimizer:
+  class: Adam
+  lr: 2.0e-5
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 2
+
+train:
+  num_epoch: 100
+  tradeoff: 1.0

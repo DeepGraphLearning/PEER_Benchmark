@@ -1,0 +1,63 @@
+output_dir: ~/scratch/torchprotein_output/
+
+datasets:
+  - class: AAV
+    path: ~/scratch/protein-datasets/
+    atom_feature: null
+    bond_feature: null
+    keep_mutation_region: True
+    center: True
+    transform:
+      class: Compose
+      transforms:
+        - class: ProteinView
+          view: "residue"
+  - class: SecondaryStructure
+    path: ~/scratch/protein-datasets/
+    atom_feature: null
+    bond_feature: null
+    test_split: cb513
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 200
+          random: True
+        - class: ProteinView
+          view: "residue"
+
+tasks:
+  - class: PropertyPrediction
+    criterion: mse
+    metric: [ "mae", "rmse", "spearmanr" ]
+    normalization: False
+    num_mlp_layer: 2
+  - class: NodePropertyPrediction
+    criterion: ce
+    metric: [ "micro_acc", "macro_acc" ]
+    num_mlp_layer: 2
+    num_class: 3
+
+model:
+  class: ProteinBERT
+  input_dim: 21
+  hidden_dim: 512
+  num_layers: 4
+  num_heads: 8
+  intermediate_dim: 2048
+  hidden_dropout: 0.1
+  attention_dropout: 0.1
+
+eval_metric: Center - AAV spearmanr
+
+optimizer:
+  class: Adam
+  lr: 2.0e-5
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 4
+
+train:
+  num_epoch: 100
+  tradeoff: 1.0

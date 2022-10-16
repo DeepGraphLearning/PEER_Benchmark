@@ -14,7 +14,7 @@ from torchdrug import core, datasets, tasks, models, layers
 from torchdrug.utils import comm
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from peer import protbert, util
+from peer import protbert, util, flip
 from peer.engine import MultiTaskEngine
 
 

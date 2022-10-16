@@ -1,0 +1,60 @@
+output_dir: ~/scratch/torchprotein_output/
+
+datasets:
+  - class: GB1
+    path: ~/scratch/protein-datasets/
+    atom_feature: null
+    bond_feature: null
+    center: True
+    transform:
+      class: Compose
+      transforms:
+        - class: ProteinView
+          view: "residue"
+  - class: SecondaryStructure
+    path: ~/scratch/protein-datasets/
+    atom_feature: null
+    bond_feature: null
+    test_split: cb513
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 200
+          random: True
+        - class: ProteinView
+          view: "residue"
+
+tasks:
+  - class: PropertyPrediction
+    criterion: mse
+    metric: [ "mae", "rmse", "spearmanr" ]
+    normalization: False
+    num_mlp_layer: 2
+  - class: NodePropertyPrediction
+    criterion: ce
+    metric: [ "micro_acc", "macro_acc" ]
+    num_mlp_layer: 2
+    num_class: 3
+
+model:
+  class: ESM
+  path: ~/scratch/protein-model-weights/esm-model-weights/
+  model: ESM-1b
+  readout: mean
+
+eval_metric: Center - GB1 spearmanr
+
+optimizer:
+  class: Adam
+  lr: 2.0e-5
+
+lr_ratio: 0.1
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 2
+
+train:
+  num_epoch: 100
+  tradeoff: 1.0

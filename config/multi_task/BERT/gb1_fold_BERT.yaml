@@ -1,0 +1,62 @@
+output_dir: ~/scratch/torchprotein_output/
+
+datasets:
+  - class: GB1
+    path: ~/scratch/protein-datasets/
+    atom_feature: null
+    bond_feature: null
+    center: True
+    transform:
+      class: Compose
+      transforms:
+        - class: ProteinView
+          view: "residue"
+  - class: Fold
+    path: ~/scratch/protein-datasets/
+    test_split: test_fold_holdout
+    atom_feature: null
+    bond_feature: null
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 200
+          random: True
+        - class: ProteinView
+          view: "residue"
+
+tasks:
+  - class: PropertyPrediction
+    criterion: mse
+    metric: [ "mae", "rmse", "spearmanr" ]
+    normalization: False
+    num_mlp_layer: 2
+  - class: PropertyPrediction
+    criterion: ce
+    metric: [ "acc", "mcc" ]
+    num_mlp_layer: 2
+    num_class: 1195
+
+model:
+  class: ProteinBERT
+  input_dim: 21
+  hidden_dim: 512
+  num_layers: 4
+  num_heads: 8
+  intermediate_dim: 2048
+  hidden_dropout: 0.1
+  attention_dropout: 0.1
+
+eval_metric: Center - GB1 spearmanr
+
+optimizer:
+  class: Adam
+  lr: 2.0e-5
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 4
+
+train:
+  num_epoch: 100
+  tradeoff: 1.0

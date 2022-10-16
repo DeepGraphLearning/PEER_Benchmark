@@ -1,0 +1,62 @@
+output_dir: ~/scratch/torchprotein_output/
+
+datasets:
+  - class: AAV
+    path: ~/scratch/protein-datasets/
+    atom_feature: null
+    bond_feature: null
+    keep_mutation_region: True
+    center: True
+    transform:
+      class: Compose
+      transforms:
+        - class: ProteinView
+          view: "residue"
+  - class: ProteinNet
+    path: ~/scratch/protein-datasets/
+    atom_feature: null
+    bond_feature: null
+    transform:
+      class: Compose
+      transforms:
+        - class: TruncateProtein
+          max_length: 1022
+          random: False
+        - class: ProteinView
+          view: "residue"
+
+tasks:
+  - class: PropertyPrediction
+    criterion: mse
+    metric: [ "mae", "rmse", "spearmanr" ]
+    normalization: False
+    num_mlp_layer: 2
+  - class: ContactPrediction
+    criterion: bce
+    metric: [ "accuracy", "prec@L5", "prec@5" ]
+    max_length: 300
+    random_truncate: yes
+    threshold: 8.0
+    gap: 6
+    num_mlp_layer: 2
+
+model:
+  class: ProteinConvolutionalNetwork
+  input_dim: 21
+  hidden_dims: [1024, 1024]
+  kernel_size: 5
+  padding: 2
+
+eval_metric: Center - AAV spearmanr
+
+optimizer:
+  class: Adam
+  lr: 2.0e-4
+
+engine:
+  gpus: [0, 1, 2, 3]
+  batch_size: 8
+
+train:
+  num_epoch: 100
+  tradeoff: 1.0
